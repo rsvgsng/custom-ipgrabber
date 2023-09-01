@@ -19,7 +19,9 @@ app.get('/', (req, res) => {
     } else {
       let a = await fetch(`https://api.findip.net/${address}/?token=c15c975411174d2e8110c6bd7e88979c`)
       let b = await a.json()
-      res.status(200).send(b)
+      let result = [b, address]
+      console.log(result)
+      res.status(200).send(result)
     }
   });
 });
