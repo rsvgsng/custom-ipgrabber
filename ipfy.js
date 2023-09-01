@@ -2,6 +2,8 @@ const express = require('express');
 const dns = require('dns');
 const app = express();
 require('isomorphic-fetch');
+const cors = require('cors')
+app.use(cors())
 app.get('/', (req, res) => {
   if (!req.query.ip) return res.status(500).json({
     message: "Invalid Params",
