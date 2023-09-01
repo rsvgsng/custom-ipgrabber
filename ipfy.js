@@ -8,7 +8,6 @@ app.get('/', (req, res) => {
     code: 500
   })
   let formattedIp = req.query.ip.replace(/^(https?:\/\/)|(\/)+$/g, '');
-  console.log(formattedIp)
   dns.lookup(formattedIp, async (err, address, family) => {
     if (err) {
       res.status(500).send({
