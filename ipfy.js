@@ -4,12 +4,18 @@ const app = express();
 require('isomorphic-fetch');
 const cors = require('cors')
 app.use(cors())
+function formatIP(ip) {
+  const regex = /^(?:https?:\/\/)?([^/]+)(?:\/|$)/;
+  const match = ip.match(regex);
+  return (match[1]);
+}
 app.get('/', (req, res) => {
   if (!req.query.ip) return res.status(500).json({
     message: "Invalid Params",
     code: 500
   })
-  let formattedIp = req.query.ip.replace(/^(https?:\/\/)|(\/)+$/g, '');
+
+  let formattedIp = formatIP(req.query.ip)
   dns.lookup(formattedIp, async (err, address, family) => {
     if (err) {
       res.status(500).send({
@@ -20,7 +26,6 @@ app.get('/', (req, res) => {
       let a = await fetch(`https://api.findip.net/${address}/?token=c15c975411174d2e8110c6bd7e88979c`)
       let b = await a.json()
       let result = [b, address]
-      console.log(result)
       res.status(200).send(result)
     }
   });
